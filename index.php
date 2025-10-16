@@ -6,6 +6,10 @@ session_set_cookie_params([
   'samesite' => 'Strict'
 ]);
 session_start();
+  $servername = "localhost";
+  $db_username = "root";
+  $db_password = "";
+  $dbname = "Lakvisit";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -212,10 +216,7 @@ session_start();
     <div class="container">
       <div class="row text-center">
         <?php
-          $servername = "localhost";
-          $db_username = "root";
-          $db_password = "";
-          $dbname = "Lakvisit";
+          
 
           $conn = new mysqli($servername, $db_username, $db_password, $dbname);
           if ($conn->connect_error) {
