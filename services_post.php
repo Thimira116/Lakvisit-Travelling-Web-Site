@@ -6,7 +6,7 @@ header("Pragma: no-cache");
 header("Expires: 0");
 
 session_start();
-$conn = new mysqli("localhost", "root", "", "Lakvisit");
+include 'db_connection.php';
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
