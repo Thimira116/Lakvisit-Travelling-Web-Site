@@ -6,6 +6,7 @@ session_set_cookie_params([
   'samesite' => 'Strict'
 ]);
 session_start();
+include 'db_connection.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
