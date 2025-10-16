@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'db_connection.php';
 
 if (!isset($_SESSION['username'])) {
   header('Location: login.php');
@@ -13,11 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $province = htmlspecialchars($_POST['province']);
   $district = htmlspecialchars($_POST['district']);
   $location = htmlspecialchars($_POST['location']);
-
-  $conn = new mysqli('localhost', 'root', '', 'Lakvisit');
-  if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-  }
 
   $username = $_SESSION['username'];
   $stmt = $conn->prepare("INSERT INTO destination_ads (username, title, description, category, province, district, location) VALUES (?, ?, ?, ?, ?, ?, ?)");
