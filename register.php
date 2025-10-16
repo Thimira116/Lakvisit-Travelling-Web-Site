@@ -40,6 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$password) $errors[] = "Password is required.";
     if ($password !== $confirm) $errors[] = "Passwords do not match.";
 
+    // ✅ Check if Terms checkbox is marked
+    if (empty($_POST['terms'])) {
+      $errors[] = "You must agree to the Terms & Conditions and Privacy Policy.";
+    }
+
+
     if (empty($errors)) {
         // Check for existing username or email
         $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ? OR username = ?");
@@ -203,7 +209,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
       <div>
         <label>
-          <input type="checkbox" id="termsCheckbox" required>
+          <input type="checkbox" id="termsCheckbox" name="terms" required>
             I agree to the <a href="terms.php" target="_blank">Terms & Conditions</a> and <a href="privacy.php" target="_blank">Privacy Policy</a>
           </label>
       </div>
@@ -214,7 +220,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <p class="text-center mt-3">Already have an account? <a href="login.php">Login here</a></p>
   </div>
 
+  <!-- Modal popup -->
+  <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title" id="termsModalLabel">Terms Agreement Required</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          ⚠️ Please agree to the <strong>Terms & Conditions</strong> and <strong>Privacy Policy</strong> before registering.
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+  document.querySelector("form").addEventListener("submit", function(e) {
+    const terms = document.getElementById("termsCheckbox");
+    if (!terms.checked) {
+      e.preventDefault();
+      const modal = new bootstrap.Modal(document.getElementById("termsModal"));
+      modal.show();
+    }
+  });
+  </script>
+
 </body>
 </html>
