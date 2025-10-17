@@ -104,19 +104,15 @@ $service_posts = $service_stmt->get_result();
     margin-top: 40px;
     margin-bottom: 20px;
   }
-  .profile-img {
-    max-width: 150px;
-    max-height: 150px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-bottom: 15px;
-  }
   .post-img {
     width: 100%;
     height: auto;
     object-fit: cover;
     border-radius: 8px;
     margin-bottom: 10px;
+  }
+  .modal-header{
+    background-color: #00B763;
   }
 
     a {
@@ -169,6 +165,7 @@ $service_posts = $service_stmt->get_result();
   </div>
 </nav>
 
+
 <div class="container mt-4">
   <div class="row justify-content-center">
     <div class="col-lg-10 col-md-12">
@@ -179,6 +176,7 @@ $service_posts = $service_stmt->get_result();
         <p><strong>Email:</strong> <?= htmlspecialchars($user_data['email'] ?? 'N/A') ?></p>
         <p><strong>Phone:</strong> <?= htmlspecialchars($user_data['phone'] ?? 'N/A') ?></p>
       </div>
+
 
       <!-- User Destination Posts -->
 <div class="section-title">Your Destination Posts</div>
@@ -220,7 +218,7 @@ $service_posts = $service_stmt->get_result();
           <?php endif; ?>
 
           <a href="destination_post.php?id=<?= $ad['id'] ?>" class="btn btn-primary mb-1">View Details</a>
-          <a href="delete_destination.php?id=<?= $ad['id'] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this post?')">Delete Post</a>
+          <a href="delete_destination.php?id=<?= $ad['id'] ?>" class="btn btn-danger delete-btn">Delete Post</a>
         </div>
       </div>
     </div>
@@ -267,17 +265,47 @@ $service_posts = $service_stmt->get_result();
           <?php endif; ?>
 
           <a href="service_post.php?id=<?= $ad['id'] ?>" class="btn btn-primary mb-1">View Details</a>
-          <a href="delete_service.php?id=<?= $ad['id'] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this service?')">Delete Post</a>
+          <a href="delete_service.php?id=<?= $ad['id'] ?>" class="btn btn-danger delete-btn">Delete Post</a>
         </div>
       </div>
     </div>
   <?php endwhile; ?>
 </div>
 
-
-
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this post? This action cannot be undone.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancel</button>
+        <a href="#" id="confirmDeleteBtn" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+  const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+  document.querySelectorAll('.delete-btn').forEach(button => {
+    button.addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent default link action
+      const deleteUrl = this.getAttribute('href');
+      confirmDeleteBtn.setAttribute('href', deleteUrl);
+      deleteModal.show();
+    });
+  });
+</script>
+
 </body>
 </html>
 
