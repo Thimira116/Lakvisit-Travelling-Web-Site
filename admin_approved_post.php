@@ -1,8 +1,7 @@
 <?php
 session_start();
-
-// Include your database connection file
-include 'db_connection.php'; // Make sure this file defines $conn
+
+include 'db_connection.php';
 
 //Approve Post (regular ads)
 if (isset($_GET['approve_id'])) {
@@ -40,8 +39,6 @@ if (isset($_GET['delete_service_id'])) {
     $stmt = $conn->prepare("DELETE FROM services_ads WHERE id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
-
-    // Also delete associated images
 
     // Assuming images for service ads are stored in 'ad_images' with a column to distinguish type
     $img_stmt = $conn->prepare("DELETE FROM destination_images WHERE ad_id = ?");
