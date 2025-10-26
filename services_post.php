@@ -8,6 +8,23 @@ header("Expires: 0");
 session_start();
 include 'db_connection.php';
 
+if (isset($_GET['id'])) {
+    $post_id = intval($_GET['id']);
+
+    // Increment view count
+    $stmt = $conn->prepare("UPDATE services_ads SET views = views + 1 WHERE id = ?");
+    $stmt->bind_param("i", $post_id);
+    $stmt->execute();
+    $stmt->close();
+
+    // Fetch the post details
+    $stmt = $conn->prepare("SELECT * FROM services_ads WHERE id = ?");
+    $stmt->bind_param("i", $post_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $post = $result->fetch_assoc();
+}
+
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 // Get main ad details
