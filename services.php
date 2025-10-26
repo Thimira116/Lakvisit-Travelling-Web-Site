@@ -436,6 +436,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_post_id'])) {
             <h5 class="card-title"><?= html_entity_decode($ad['title']) ?></h5>
             <h6 class="card-subtitle mb-2 text-muted"><?= htmlspecialchars($ad['province']) ?> - <?= htmlspecialchars($ad['district']) ?></h6>
             <p class="card-text mt-auto"><small class="text-muted">Location: <?= htmlspecialchars($ad['location']) ?></small></p>
+
+            <p class="card-text"><small class="text-muted">Views: <?= intval($ad['views']) ?></small></p>
             
             <?php
             $ad_id = $ad['id'];
